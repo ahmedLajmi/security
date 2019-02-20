@@ -3,6 +3,7 @@ package service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dao.UserDAO;
@@ -12,6 +13,9 @@ import model.User;
 public class UserServiceImp implements UserService {
 
 	private UserDAO userDAO;
+	
+	//@Autowired
+    //private PasswordEncoder passwordEncoder;
 
 	public void setUserDAO(UserDAO userDAO) {
 		this.userDAO = userDAO;
@@ -31,8 +35,8 @@ public class UserServiceImp implements UserService {
 
 
 	@Override
-	public User findById(int id) {
-		return this.userDAO.findById(id);		
+	public User findById(String login) {
+		return this.userDAO.findById(login);		
 	}
 
 }

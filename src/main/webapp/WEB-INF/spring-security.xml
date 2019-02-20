@@ -7,22 +7,46 @@
     http://www.springframework.org/schema/security  
     http://www.springframework.org/schema/security/spring-security.xsd">
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/admin"
-			access="hasRole('ROLE_ADMIN')" />
 
-		<form-login login-page='/login.html'
-			default-target-url="/homepage.html"
-			authentication-failure-url="/login.html?error=true" />
-		<logout logout-success-url="/login.html" />
-		<csrf disabled="true"/>
-		
-		
+		<intercept-url pattern="/login" access="isAnonymous()" />
+		<intercept-url pattern="/resources/static/**"
+			access="isAnonymous()" />
+		<intercept-url pattern="/resources/interne/**"
+			access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+
+		<intercept-url pattern="/persons"
+			access="hasRole('ROLE_ADMIN')" />
+			<intercept-url pattern="/person/add/**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+			<intercept-url pattern="/update/**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+			
+		<!-- <intercept-url pattern="/update/**" access="hasRole('ROLE_ADMIN')" 
+			/> -->
+
+
+		<intercept-url pattern="/**"
+			access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+
+
+		<form-login login-page='/login' default-target-url="/"
+			authentication-failure-url="/login?error=true" />
+		<logout logout-success-url="/login" />
+		<csrf disabled="true" />
+
+
 	</http>
 
 	<authentication-manager>
 		<authentication-provider
-			user-service-ref="CustomUserDetailsService" />
+			user-service-ref="CustomUserDetailsService">
+			
+		</authentication-provider>
 	</authentication-manager>
+
+	<beans:bean id="bcryptEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<beans:constructor-arg name="strength"
+			value="11" />
+	</beans:bean>
 
 	<beans:bean id="CustomUserDetailsService"
 		class="service.CustomUserDetailsService" />

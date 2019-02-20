@@ -7,7 +7,7 @@ import model.User;
 public interface UserDAO {
 
 	public void save(User p);
-	public User findById(int id);
+	public User findById(String login);
 	public List<User> list();
 
 }

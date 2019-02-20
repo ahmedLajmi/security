@@ -37,9 +37,9 @@ public class UserDAOImp implements UserDAO {
 	}
 
 	@Override
-	public User findById(int id) {
+	public User findById(String login) {
 		Session session = this.sessionFactory.openSession();
-		User user = (User) session.get(User.class, id);
+		User user = (User) session.get(User.class, login);
 		session.close();
 		return user;
 	}

@@ -6,6 +6,6 @@ import model.User;
 
 public interface UserService {
 	public void addUser(User user);
-	public User findById(int id);
+	public User findById(String login);
 	public List<User> listUsers() ;
 }
